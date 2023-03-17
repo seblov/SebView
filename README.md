@@ -4,7 +4,7 @@ Dependencies
 
   Nodejs:
   Express -- npm install express
-  Mssql   -- npm install mssql
+  Msnodesqlv8   -- npm install msnodesqlv8 --save
   Ejs     -- npm install ejs
   
   Charts JS -- npm install chart.js --save
