@@ -40,71 +40,71 @@
     </div>
   </body>
   <script>
-    const updateQuery2Button = document.getElementById('update-query2-button');
-    updateQuery2Button.addEventListener('click', updateQuery2);
-    const results2 = <%- JSON.stringify(results2) %>;
-const labels = results2.map(result => result.admunit);
-const data = results2.map(result => result.count);
+        const updateQuery2Button = document.getElementById('update-query2-button');
+        updateQuery2Button.addEventListener('click', updateQuery2);
+        const results2 = <%- JSON.stringify(results2) %>;
+    const labels = results2.map(result => result.admunit);
+    const data = results2.map(result => result.count);
 
-const ctx = document.getElementById('query2-pie-chart').getContext('2d');
+    const ctx = document.getElementById('query2-pie-chart').getContext('2d');
 
-let chart = null;
+    let chart = null;
 
-function updateChart(labels, values) {
-  if (chart) {
-    chart.destroy();
-  }
+    function updateChart(labels, values) {
+      if (chart) {
+        chart.destroy();
+      }
 
-  chart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-      labels: labels,
-      datasets: [{
-        data: values,
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.7)',
-          'rgba(54, 162, 235, 0.7)',
-          'rgba(255, 206, 86, 0.7)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        datalabels: {
-          display: true,
-          color: 'black',
-          formatter: function(value, context) {
-            return value;
+      chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: values,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            datalabels: {
+              display: true,
+              color: 'black',
+              formatter: function(value, context) {
+                return value;
+              }
+            }
           }
         }
-      }
+      });
     }
-  });
-}
 
-updateChart(labels, data);
+    updateChart(labels, data);
 
-function updateQuery2() {
-  fetch('/query2')
-    .then(response => response.json())
-    .then(data => {
-      const labels = data.map(result => result.admunit);
-      const values = data.map(result => result.count);
-      updateChart(labels, values);
-    })
-    .catch(error => console.error(error));
-}
+    function updateQuery2() {
+      fetch('/query2')
+        .then(response => response.json())
+        .then(data => {
+          const labels = data.map(result => result.admunit);
+          const values = data.map(result => result.count);
+          updateChart(labels, values);
+        })
+        .catch(error => console.error(error));
+    }
 
-// Update query_2 every 5 minutes
-setInterval(updateQuery2, 5 * 60 * 1000);
+    // Update query_2 every 5 minutes
+    setInterval(updateQuery2, 5 * 60 * 1000);
 
-// Handle the "Update Chart" button click event
-const updateButton = document.getElementById('update-chart-button');
-updateButton.addEventListener('click', () => {
-  updateQuery2();
-});
-</script>
+    // Handle the "Update Chart" button click event
+    const updateButton = document.getElementById('update-chart-button');
+    updateButton.addEventListener('click', () => {
+      updateQuery2();
+    });
+  </script>
 </html>
